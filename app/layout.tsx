@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/assets/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Camera Configuration App",
@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fa">
       <body>
         {children}
       </body>
