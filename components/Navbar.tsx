@@ -24,6 +24,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { routing, type Locale, type Pathname } from '@/i18n/routing';
 import type { ElementType } from 'react';
+import ColorModeToggle from '@/components/theme/ColorModeToggle';
 
 type NavItem = {
   key: 'settings' | 'search' | 'users' | 'camera' | 'advanced';
@@ -137,7 +138,7 @@ export default function Navbar() {
             </Menu>
           </Box>
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component={Link}
             href="/"
@@ -193,23 +194,30 @@ export default function Navbar() {
               </Button>
             ))}
           </Box>
-          <FormControl size="small" variant="outlined" sx={{ minWidth: 120, ml: { xs: 0, md: 1 } }}>
-            <InputLabel id="language-select-label">{t('language.label')}</InputLabel>
-            <Select
-              labelId="language-select-label"
-              id="language-select"
-              value={locale}
-              label={t('language.label')}
-              disabled={isPending}
-              onChange={handleLocaleChange}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <ColorModeToggle title={t('theme.toggle')} />
+            <FormControl
+              size="small"
+              variant="outlined"
+              sx={{ minWidth: 120, ml: { xs: 0, md: 1 } }}
             >
-              {routing.locales.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {t(`language.options.${option}`)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <InputLabel id="language-select-label">{t('language.label')}</InputLabel>
+              <Select
+                labelId="language-select-label"
+                id="language-select"
+                value={locale}
+                label={t('language.label')}
+                disabled={isPending}
+                onChange={handleLocaleChange}
+              >
+                {routing.locales.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {t(`language.options.${option}`)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>

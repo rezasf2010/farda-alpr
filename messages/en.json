@@ -23,6 +23,9 @@
         "fa": "Persian",
         "en": "English"
       }
+    },
+    "theme": {
+      "toggle": "Toggle theme"
     }
   },
   "HomePage": {
@@ -52,6 +55,31 @@
       "edit": "Edit",
       "remove": "Remove",
       "create": "New User"
+    },
+    "cameras": {
+      "title": "Camera Management",
+      "subtitle": "Oversee device health, coverage, and stream availability.",
+      "status": {
+        "active": "Active",
+        "inactive": "Offline",
+        "maintenance": "Maintenance"
+      },
+      "fields": {
+        "number": "Camera Number",
+        "location": "Location",
+        "resolution": "Resolution",
+        "lastActive": "Last activity"
+      },
+      "actions": {
+        "edit": "Edit",
+        "remove": "Remove",
+        "view": "View Stream",
+        "create": "New Camera"
+      }
+    },
+    "cameraPreview": {
+      "title": "Live Tiles",
+      "subtitle": "Quickly review each camera feed status."
     }
   }
 }
