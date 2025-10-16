@@ -1,11 +1,13 @@
-import React from 'react';
+'use client';
 
-const Header = () => {
+import { useTranslations } from 'next-intl';
+
+export default function Header() {
+  const t = useTranslations('Header');
+
   return (
-    <div className="bg-sky-950 h-14 flex justify-center items-center">
-      <h1 className="font-extrabold text-2xl">FARDA ALPR</h1>
+    <div className="flex h-14 items-center justify-center bg-sky-950">
+      <h1 className="text-2xl font-extrabold">{t('title')}</h1>
     </div>
   );
-};
-
-export default Header;
+}

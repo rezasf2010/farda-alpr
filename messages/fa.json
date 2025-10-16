@@ -1,0 +1,57 @@
+{
+  "Metadata": {
+    "title": "سامانه پیکربندی دوربین",
+    "description": "برنامه‌ای برای پیکربندی دوربین‌ها"
+  },
+  "Header": {
+    "title": "سامانه فردا ALPR"
+  },
+  "Navbar": {
+    "menu": {
+      "openLabel": "باز کردن منوی ناوبری"
+    },
+    "pages": {
+      "settings": "تنظیمات",
+      "search": "جستجو",
+      "users": "کاربران",
+      "camera": "دوربین",
+      "advanced": "پیشرفته"
+    },
+    "language": {
+      "label": "زبان",
+      "options": {
+        "fa": "فارسی",
+        "en": "انگلیسی"
+      }
+    }
+  },
+  "HomePage": {
+    "title": "پروژه دوربین"
+  },
+  "UsersPage": {
+    "title": "صفحه کاربران",
+    "management": {
+      "title": "مدیریت کاربران",
+      "subtitle": "مدیریت دسترسی و وضعیت فعالیت حساب‌ها."
+    },
+    "status": {
+      "online": "آنلاین",
+      "offline": "آفلاین",
+      "idle": "در انتظار"
+    },
+    "roles": {
+      "admin": "مدیر سیستم",
+      "operator": "اپراتور",
+      "viewer": "مشاهده‌گر"
+    },
+    "relative": {
+      "minutes": "{count, plural, =0 {همین الان} one {# دقیقه پیش} other {# دقیقه پیش}}",
+      "hours": "{count, plural, one {# ساعت پیش} other {# ساعت پیش}}"
+    },
+    "actions": {
+      "edit": "ویرایش",
+      "remove": "حذف",
+      "create": "کاربر جدید"
+    }
+  }
+}

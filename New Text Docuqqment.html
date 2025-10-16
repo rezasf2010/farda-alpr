@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farda - مدیریت کاربران و دوربین‌ها</title>
+
+    <!-- CSS libraries -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary: #0d1b2a;
+        --secondary: #13315c;
+        --accent: #1a4480;
+        --panel: #0b2545;
+        --muted: #9fb3c8;
+      }
+
+      body {
+        background-color: var(--primary);
+        color: white;
+        font-family: Tahoma, sans-serif;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+
+      .logo-container {
+        background-color: var(--panel);
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .logo-container img {
+        height: 40px;
+      }
+
+      .menu-bar {
+        display: flex;
+        justify-content: space-around;
+        background-color: var(--secondary);
+        padding: 12px 0;
+        flex-shrink: 0;
+      }
+
+      .menu-item {
+        text-align: center;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.3s;
+        width: 15vw;
+        max-width: 100px;
+      }
+
+      .menu-item:hover {
+        transform: translateY(-3px);
+      }
+
+      .menu-icon {
+        font-size: 20px;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .menu-text {
+        font-size: 12px;
+      }
+
+      .content-panel {
+        background: var(--panel);
+        border-radius: 12px;
+        padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        margin-bottom: 15px;
+      }
+
+      .section-title {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        font-weight: bold;
+      }
+
+      .user-card,
+      .camera-card {
+        background: linear-gradient(145deg, #111827, #0e2a43);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s ease;
+      }
+
+      .user-card:hover,
+      .camera-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+      }
+
+      .user-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        margin-left: 15px;
+      }
+
+      .permission-badge {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+        border-radius: 15px;
+      }
+
+      .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-left: 5px;
+      }
+
+      .status-online {
+        background-color: #28a745;
+      }
+
+      .status-offline {
+        background-color: #dc3545;
+      }
+
+      .camera-stream {
+        width: 100%;
+        height: 120px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #081226;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      .btn-accent {
+        background: var(--accent);
+        color: white;
+        border: none;
+      }
+
+      .btn-accent:hover {
+        background: #1a5cb3;
+      }
+
+      .form-control,
+      .form-select {
+        background-color: #0b2545;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      .form-control:focus,
+      .form-select:focus {
+        background-color: #0b2545;
+        border-color: var(--accent);
+        color: white;
+        box-shadow: 0 0 0 0.2rem rgba(26, 68, 128, 0.25);
+      }
+
+      .modal-content {
+        background-color: var(--panel);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .modal-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .modal-footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .permission-item {
+        margin-bottom: 8px;
+        padding: 6px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .container-fluid {
+        padding: 15px;
+      }
+
+      .permission-dropdown {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .permission-dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: var(--panel);
+        min-width: 100%;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 5px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .permission-dropdown:hover .permission-dropdown-content {
+        display: block;
+      }
+
+      .permission-option {
+        padding: 5px 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .permission-option input {
+        margin-left: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logo-container">
+      <div style="color: white; font-weight: bold; font-size: 20px">FARDA ALPR</div>
+    </div>
+
+    <div class="menu-bar mb-3">
+      <div class="menu-item" onclick="window.location.href='/'">
+        <i class="fa fa-cog menu-icon"></i>
+        <div class="menu-text">تنظیمات</div>
+      </div>
+      <div class="menu-item" onclick="window.location.href='/search'">
+        <i class="fa fa-search menu-icon"></i>
+        <div class="menu-text">جستجو</div>
+      </div>
+      <div class="menu-item" style="background: #1a4480">
+        <i class="fa fa-users menu-icon"></i>
+        <div class="menu-text">کاربران</div>
+      </div>
+      <div class="menu-item">
+        <i class="fa fa-video menu-icon"></i>
+        <div class="menu-text">دوربین</div>
+      </div>
+      <div class="menu-item">
+        <i class="fa fa-sliders-h menu-icon"></i>
+        <div class="menu-text">پیشرفته</div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row g-3">
+        <!-- LEFT: مدیریت کاربران -->
+        <div class="col-12 col-lg-6">
+          <div class="content-panel">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="section-title m-0">مدیریت کاربران</h5>
+              <button
+                class="btn btn-accent btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#addUserModal"
+              >
+                <i class="fa fa-user-plus me-1"></i> کاربر جدید
+              </button>
+            </div>
+
+            <div class="row" id="usersList">
+              <!-- کاربران به صورت داینامیک لود می‌شوند -->
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: مدیریت دوربین‌ها -->
+        <div class="col-12 col-lg-6">
+          <div class="content-panel">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="section-title m-0">مدیریت دوربین‌ها</h5>
+              <button
+                class="btn btn-accent btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#addCameraModal"
+              >
+                <i class="fa fa-video me-1"></i> دوربین جدید
+              </button>
+            </div>
+
+            <div class="row" id="camerasList">
+              <!-- دوربین‌ها به صورت داینامیک لود می‌شوند -->
+            </div>
+          </div>
+
+          <div class="content-panel">
+            <h5 class="section-title">پیش‌نمایش دوربین‌ها</h5>
+            <div class="row g-3" id="cameraPreviews">
+              <!-- استریم دوربین‌ها به صورت داینامیک لود می‌شوند -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal افزودن کاربر -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">افزودن کاربر جدید</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addUserForm">
+              <div class="mb-3">
+                <label for="userFullName" class="form-label">نام کامل</label>
+                <input type="text" class="form-control" id="userFullName" required />
+              </div>
+              <div class="mb-3">
+                <label for="userUsername" class="form-label">نام کاربری</label>
+                <input type="text" class="form-control" id="userUsername" required />
+              </div>
+              <div class="mb-3">
+                <label for="userEmail" class="form-label">ایمیل</label>
+                <input type="email" class="form-control" id="userEmail" required />
+              </div>
+              <div class="mb-3">
+                <label for="userPassword" class="form-label">رمز عبور</label>
+                <input type="password" class="form-control" id="userPassword" required />
+              </div>
+              <div class="mb-3">
+                <label for="userRole" class="form-label">سطح دسترسی</label>
+                <div class="permission-dropdown">
+                  <button
+                    type="button"
+                    class="btn btn-outline-light w-100 text-start"
+                    id="permissionDropdownBtn"
+                  >
+                    <span id="selectedPermissionsText">انتخاب دسترسی‌ها</span>
+                    <i class="fa fa-chevron-down float-start mt-1"></i>
+                  </button>
+                  <div class="permission-dropdown-content">
+                    <div class="permission-option">
+                      <input
+                        type="checkbox"
+                        id="permViewCamera"
+                        class="permission-checkbox"
+                        data-permission="مشاهده دوربین"
+                      />
+                      <label for="permViewCamera">مشاهده دوربین</label>
+                    </div>
+                    <div class="permission-option">
+                      <input
+                        type="checkbox"
+                        id="permViewMembers"
+                        class="permission-checkbox"
+                        data-permission="مشاهده اعضا"
+                      />
+                      <label for="permViewMembers">مشاهده اعضا</label>
+                    </div>
+                    <div class="permission-option">
+                      <input
+                        type="checkbox"
+                        id="permEdit"
+                        class="permission-checkbox"
+                        data-permission="تغییر"
+                      />
+                      <label for="permEdit">تغییر</label>
+                    </div>
+                    <div class="permission-option">
+                      <input
+                        type="checkbox"
+                        id="permDelete"
+                        class="permission-checkbox"
+                        data-permission="حذف"
+                      />
+                      <label for="permDelete">حذف</label>
+                    </div>
+                    <div class="permission-option">
+                      <input
+                        type="checkbox"
+                        id="permSearch"
+                        class="permission-checkbox"
+                        data-permission="جستجو"
+                      />
+                      <label for="permSearch">جستجو</label>
+                    </div>
+                    <div class="permission-option">
+                      <input
+                        type="checkbox"
+                        id="permExport"
+                        class="permission-checkbox"
+                        data-permission="خروجی"
+                      />
+                      <label for="permExport">خروجی</label>
+                    </div>
+                    <div class="permission-option">
+                      <input
+                        type="checkbox"
+                        id="permSettings"
+                        class="permission-checkbox"
+                        data-permission="تنظیمات"
+                      />
+                      <label for="permSettings">تنظیمات</label>
+                    </div>
+                    <div class="permission-option">
+                      <input
+                        type="checkbox"
+                        id="permReports"
+                        class="permission-checkbox"
+                        data-permission="گزارش‌ها"
+                      />
+                      <label for="permReports">گزارش‌ها</label>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" id="userPermissions" name="userPermissions" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+            <button type="button" class="btn btn-accent" onclick="addNewUser()">ذخیره کاربر</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal افزودن دوربین -->
+    <div class="modal fade" id="addCameraModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">افزودن دوربین جدید</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="addCameraForm">
+              <div class="mb-3">
+                <label for="cameraName" class="form-label">نام دوربین</label>
+                <input type="text" class="form-control" id="cameraName" required />
+              </div>
+              <div class="mb-3">
+                <label for="cameraNumber" class="form-label">شماره دوربین</label>
+                <input type="text" class="form-control" id="cameraNumber" required />
+              </div>
+              <div class="mb-3">
+                <label for="cameraStreamUrl" class="form-label">آدرس استریم</label>
+                <input type="text" class="form-control" id="cameraStreamUrl" required />
+              </div>
+              <div class="mb-3">
+                <label for="cameraLocation" class="form-label">موقعیت نصب</label>
+                <input type="text" class="form-control" id="cameraLocation" required />
+              </div>
+              <div class="mb-3">
+                <label for="cameraStatus" class="form-label">وضعیت</label>
+                <select class="form-select" id="cameraStatus" required>
+                  <option value="active" selected>فعال</option>
+                  <option value="inactive">غیرفعال</option>
+                  <option value="maintenance">در حال تعمیر</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="cameraResolution" class="form-label">رزولوشن</label>
+                <select class="form-select" id="cameraResolution" required>
+                  <option value="1080p">1080p</option>
+                  <option value="720p">720p</option>
+                  <option value="480p">480p</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+            <button type="button" class="btn btn-accent" onclick="addNewCamera()">
+              ذخیره دوربین
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal ویرایش کاربر -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">ویرایش کاربر</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" id="editUserModalBody">
+            <!-- محتوای این مدال به صورت داینامیک پر می‌شود -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // داده‌های نمونه برای نمایش
+      const sampleUsers = [
+        {
+          id: 1,
+          name: 'علی محمدی',
+          username: 'ali.mohammadi',
+          email: 'ali@example.com',
+          role: 'admin',
+          permissions: [
+            'مشاهده دوربین',
+            'مشاهده اعضا',
+            'تغییر',
+            'حذف',
+            'جستجو',
+            'خروجی',
+            'تنظیمات',
+            'گزارش‌ها',
+          ],
+          lastLogin: '۱۴۰۲/۰۸/۱۵ - ۱۴:۳۰',
+          status: 'online',
+        },
+        {
+          id: 2,
+          name: 'مریم کریمی',
+          username: 'maryam.karimi',
+          email: 'maryam@example.com',
+          role: 'operator',
+          permissions: ['مشاهده دوربین', 'جستجو', 'خروجی'],
+          lastLogin: '۱۴۰۲/۰۸/۱۴ - ۰۹:۱۵',
+          status: 'offline',
+        },
+        {
+          id: 3,
+          name: 'رضا احمدی',
+          username: 'reza.ahmadi',
+          email: 'reza@example.com',
+          role: 'viewer',
+          permissions: ['مشاهده دوربین'],
+          lastLogin: '۱۴۰۲/۰۸/۱۳ - ۱۶:۴۵',
+          status: 'online',
+        },
+      ];
+
+      const sampleCameras = [
+        {
+          id: 1,
+          name: 'دوربین ورودی اصلی',
+          number: 'CAM-001',
+          streamUrl: 'rtsp://192.168.1.101:554/stream',
+          location: 'ورودی اصلی ساختمان',
+          status: 'active',
+          resolution: '1080p',
+          lastActive: '۱۴۰۲/۰۸/۱۵ - ۱۴:۲۵',
+        },
+        {
+          id: 2,
+          name: 'دوربین پارکینگ',
+          number: 'CAM-002',
+          streamUrl: 'rtsp://192.168.1.102:554/stream',
+          location: 'پارکینگ طبقه همکف',
+          status: 'active',
+          resolution: '720p',
+          lastActive: '۱۴۰۲/۰۸/۱۵ - ۱۴:۱۰',
+        },
+        {
+          id: 3,
+          name: 'دوربین خروجی پشتی',
+          number: 'CAM-003',
+          streamUrl: 'rtsp://192.168.1.103:554/stream',
+          location: 'خروجی پشتی ساختمان',
+          status: 'maintenance',
+          resolution: '1080p',
+          lastActive: '۱۴۰۲/۰۸/۱۴ - ۱۱:۳۰',
+        },
+      ];
+
+      // تابع برای نمایش کاربران
+      function loadUsers() {
+        const usersList = document.getElementById('usersList');
+        usersList.innerHTML = '';
+
+        sampleUsers.forEach((user) => {
+          const userCard = document.createElement('div');
+          userCard.className = 'col-12';
+          userCard.innerHTML = `
+                    <div class="user-card">
+                        <div class="d-flex align-items-center">
+                            <div class="user-avatar">
+                                ${user.name.split(' ')[0].charAt(0)}${user.name.split(' ')[1].charAt(0)}
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">${user.name}</h6>
+                                        <small class="text-muted">${user.username} • ${user.email}</small>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="status-indicator ${user.status === 'online' ? 'status-online' : 'status-offline'}"></span>
+                                        <span class="badge bg-secondary permission-badge ms-2">${user.role === 'admin' ? 'مدیر سیستم' : user.role === 'operator' ? 'اپراتور' : 'بیننده'}</span>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <small class="text-muted">آخرین ورود: ${user.lastLogin}</small>
+                                    <br>
+                                    <small class="text-muted">دسترسی‌ها: ${user.permissions.join('، ')}</small>
+                                </div>
+                                <div class="mt-2 d-flex justify-content-end">
+                                    <button class="btn btn-sm btn-outline-light me-2" onclick="editUser(${user.id})">
+                                        <i class="fa fa-edit"></i> ویرایش
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">
+                                        <i class="fa fa-trash"></i> حذف
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+          usersList.appendChild(userCard);
+        });
+      }
+
+      // تابع برای نمایش دوربین‌ها
+      function loadCameras() {
+        const camerasList = document.getElementById('camerasList');
+        camerasList.innerHTML = '';
+
+        sampleCameras.forEach((camera) => {
+          const statusClass =
+            camera.status === 'active'
+              ? 'bg-success'
+              : camera.status === 'inactive'
+                ? 'bg-danger'
+                : 'bg-warning';
+          const statusText =
+            camera.status === 'active'
+              ? 'فعال'
+              : camera.status === 'inactive'
+                ? 'غیرفعال'
+                : 'در حال تعمیر';
+
+          const cameraCard = document.createElement('div');
+          cameraCard.className = 'col-12';
+          cameraCard.innerHTML = `
+                    <div class="camera-card">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h6 class="mb-0">${camera.name}</h6>
+                            <span class="badge ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <small class="text-muted d-block">شماره: ${camera.number}</small>
+                                <small class="text-muted d-block">موقعیت: ${camera.location}</small>
+                                <small class="text-muted d-block">رزولوشن: ${camera.resolution}</small>
+                                <small class="text-muted d-block">آخرین فعالیت: ${camera.lastActive}</small>
+                            </div>
+                            <div class="col-4 text-end">
+                                <button class="btn btn-sm btn-outline-light mb-1" onclick="editCamera(${camera.id})">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger mb-1" onclick="deleteCamera(${camera.id})">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                                <button class="btn btn-sm btn-accent" onclick="viewCameraStream(${camera.id})">
+                                    <i class="fa fa-eye"></i> مشاهده
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+          camerasList.appendChild(cameraCard);
+        });
+      }
+
+      // تابع برای نمایش پیش‌نمایش دوربین‌ها
+      function loadCameraPreviews() {
+        const cameraPreviews = document.getElementById('cameraPreviews');
+        cameraPreviews.innerHTML = '';
+
+        sampleCameras.forEach((camera) => {
+          const statusClass =
+            camera.status === 'active'
+              ? 'bg-success'
+              : camera.status === 'inactive'
+                ? 'bg-danger'
+                : 'bg-warning';
+
+          const previewCol = document.createElement('div');
+          previewCol.className = 'col-12 col-md-6';
+          previewCol.innerHTML = `
+                    <div class="camera-stream">
+                        <i class="fa fa-video fa-2x"></i>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small>${camera.name}</small>
+                        <span class="badge ${statusClass}">${camera.number}</span>
+                    </div>
+                `;
+          cameraPreviews.appendChild(previewCol);
+        });
+      }
+
+      // تابع برای مدیریت انتخاب دسترسی‌ها
+      function setupPermissionDropdown() {
+        const checkboxes = document.querySelectorAll('.permission-checkbox');
+        const selectedText = document.getElementById('selectedPermissionsText');
+        const hiddenInput = document.getElementById('userPermissions');
+
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener('change', updateSelectedPermissions);
+        });
+
+        function updateSelectedPermissions() {
+          const selectedPermissions = [];
+          checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+              selectedPermissions.push(checkbox.getAttribute('data-permission'));
+            }
+          });
+
+          if (selectedPermissions.length > 0) {
+            selectedText.textContent = selectedPermissions.join('، ');
+          } else {
+            selectedText.textContent = 'انتخاب دسترسی‌ها';
+          }
+
+          hiddenInput.value = JSON.stringify(selectedPermissions);
+        }
+
+        // جلوگیری از بسته شدن دراپ‌داون هنگام کلیک روی آن
+        document
+          .querySelector('.permission-dropdown-content')
+          .addEventListener('click', function (e) {
+            e.stopPropagation();
+          });
+      }
+
+      // تابع برای افزودن کاربر جدید
+      function addNewUser() {
+        const fullName = document.getElementById('userFullName').value;
+        const username = document.getElementById('userUsername').value;
+        const email = document.getElementById('userEmail').value;
+        const password = document.getElementById('userPassword').value;
+        const permissionsInput = document.getElementById('userPermissions').value;
+
+        if (!fullName || !username || !email || !password) {
+          alert('لطفاً تمام فیلدهای ضروری را پر کنید');
+          return;
+        }
+
+        const permissions = JSON.parse(permissionsInput || '[]');
+
+        if (permissions.length === 0) {
+          alert('لطفاً حداقل یک دسترسی انتخاب کنید');
+          return;
+        }
+
+        // در اینجا کد ارسال به سرور قرار می‌گیرد
+        alert(`کاربر ${fullName} با موفقیت افزوده شد\nدسترسی‌ها: ${permissions.join('، ')}`);
+
+        // بستن مدال
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
+        modal.hide();
+
+        // ریست فرم
+        document.getElementById('addUserForm').reset();
+        document.getElementById('selectedPermissionsText').textContent = 'انتخاب دسترسی‌ها';
+
+        // بارگذاری مجدد لیست کاربران
+        loadUsers();
+      }
+
+      // تابع برای افزودن دوربین جدید
+      function addNewCamera() {
+        const name = document.getElementById('cameraName').value;
+        const number = document.getElementById('cameraNumber').value;
+        const streamUrl = document.getElementById('cameraStreamUrl').value;
+        const location = document.getElementById('cameraLocation').value;
+        const status = document.getElementById('cameraStatus').value;
+        const resolution = document.getElementById('cameraResolution').value;
+
+        // در اینجا کد ارسال به سرور قرار می‌گیرد
+        alert(`دوربین ${name} با موفقیت افزوده شد`);
+
+        // بستن مدال
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addCameraModal'));
+        modal.hide();
+
+        // ریست فرم
+        document.getElementById('addCameraForm').reset();
+
+        // بارگذاری مجدد لیست دوربین‌ها
+        loadCameras();
+        loadCameraPreviews();
+      }
+
+      // تابع برای ویرایش کاربر
+      function editUser(userId) {
+        const user = sampleUsers.find((u) => u.id === userId);
+        if (!user) return;
+
+        const modalBody = document.getElementById('editUserModalBody');
+        modalBody.innerHTML = `
+                <form>
+                    <div class="mb-3">
+                        <label for="editUserName" class="form-label">نام کامل</label>
+                        <input type="text" class="form-control" id="editUserName" value="${user.name}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUserUsername" class="form-label">نام کاربری</label>
+                        <input type="text" class="form-control" id="editUserUsername" value="${user.username}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUserEmail" class="form-label">ایمیل</label>
+                        <input type="email" class="form-control" id="editUserEmail" value="${user.email}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">وضعیت حساب</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="editUserStatus" id="editUserActive" value="active" ${user.status === 'online' ? 'checked' : ''}>
+                            <label class="form-check-label" for="editUserActive">فعال</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="editUserStatus" id="editUserInactive" value="inactive" ${user.status === 'offline' ? 'checked' : ''}>
+                            <label class="form-check-label" for="editUserInactive">غیرفعال</label>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">انصراف</button>
+                        <button type="button" class="btn btn-accent" onclick="saveUserChanges(${user.id})">ذخیره تغییرات</button>
+                    </div>
+                </form>
+            `;
+
+        const editModal = new bootstrap.Modal(document.getElementById('editUserModal'));
+        editModal.show();
+      }
+
+      // تابع برای ذخیره تغییرات کاربر
+      function saveUserChanges(userId) {
+        // در اینجا کد ارسال به سرور قرار می‌گیرد
+        alert(`تغییرات کاربر با موفقیت ذخیره شد`);
+
+        // بستن مدال
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+        modal.hide();
+
+        // بارگذاری مجدد لیست کاربران
+        loadUsers();
+      }
+
+      // تابع برای حذف کاربر
+      function deleteUser(userId) {
+        if (confirm('آیا از حذف این کاربر اطمینان دارید؟')) {
+          // در اینجا کد ارسال به سرور قرار می‌گیرد
+          alert('کاربر با موفقیت حذف شد');
+
+          // بارگذاری مجدد لیست کاربران
+          loadUsers();
+        }
+      }
+
+      // تابع برای ویرایش دوربین
+      function editCamera(cameraId) {
+        alert(`ویرایش دوربین با شناسه ${cameraId}`);
+      }
+
+      // تابع برای حذف دوربین
+      function deleteCamera(cameraId) {
+        if (confirm('آیا از حذف این دوربین اطمینان دارید؟')) {
+          // در اینجا کد ارسال به سرور قرار می‌گیرد
+          alert('دوربین با موفقیت حذف شد');
+
+          // بارگذاری مجدد لیست دوربین‌ها
+          loadCameras();
+          loadCameraPreviews();
+        }
+      }
+
+      // تابع برای مشاهده استریم دوربین
+      function viewCameraStream(cameraId) {
+        const camera = sampleCameras.find((c) => c.id === cameraId);
+        if (camera) {
+          alert(`مشاهده استریم دوربین: ${camera.name}`);
+          // در حالت واقعی: window.open(`/camera/${cameraId}`, '_blank');
+        }
+      }
+
+      // بارگذاری اولیه داده‌ها
+      document.addEventListener('DOMContentLoaded', function () {
+        loadUsers();
+        loadCameras();
+        loadCameraPreviews();
+        setupPermissionDropdown();
+      });
+    </script>
+  </body>
+</html>
