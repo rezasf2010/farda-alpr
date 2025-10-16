@@ -1,21 +1,9 @@
-import type { Metadata } from "next";
-import "@/assets/styles/globals.css";
+import type { ReactNode } from 'react';
 
-export const metadata: Metadata = {
-  title: "Camera Configuration App",
-  description: "An application for configurating cameras",
+type RootLayoutProps = {
+  children: ReactNode;
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="fa">
-      <body>
-        {children}
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: RootLayoutProps) {
+  return children;
 }

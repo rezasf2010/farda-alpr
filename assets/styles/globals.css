@@ -2,6 +2,7 @@
 
 @theme {
   --color-navy: #0d1b2a;
+  --color-panel: #0b2545;
 }
 
 /* ===== Base (safe defaults) ===== */
@@ -15,6 +16,10 @@
   body {
     overflow-x: hidden;
     @apply min-h-screen text-white;
+  }
+
+  button {
+    @apply cursor-pointer;
   }
 
   /*IRANSansX only to Persian/RTL content to avoid side-effects elsewhere */

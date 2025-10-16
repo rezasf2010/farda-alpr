@@ -1,0 +1,57 @@
+{
+  "Metadata": {
+    "title": "Camera Configuration App",
+    "description": "An application for configuring cameras"
+  },
+  "Header": {
+    "title": "FARDA ALPR"
+  },
+  "Navbar": {
+    "menu": {
+      "openLabel": "Open navigation menu"
+    },
+    "pages": {
+      "settings": "Settings",
+      "search": "Search",
+      "users": "Users",
+      "camera": "Camera",
+      "advanced": "Advanced"
+    },
+    "language": {
+      "label": "Language",
+      "options": {
+        "fa": "Persian",
+        "en": "English"
+      }
+    }
+  },
+  "HomePage": {
+    "title": "CAMERA PROJECT"
+  },
+  "UsersPage": {
+    "title": "Users Page",
+    "management": {
+      "title": "User Management",
+      "subtitle": "Monitor account access levels and recent activity."
+    },
+    "status": {
+      "online": "Online",
+      "offline": "Offline",
+      "idle": "Idle"
+    },
+    "roles": {
+      "admin": "Administrator",
+      "operator": "Operator",
+      "viewer": "Viewer"
+    },
+    "relative": {
+      "minutes": "{count, plural, =0 {Just now} one {# minute ago} other {# minutes ago}}",
+      "hours": "{count, plural, one {# hour ago} other {# hours ago}}"
+    },
+    "actions": {
+      "edit": "Edit",
+      "remove": "Remove",
+      "create": "New User"
+    }
+  }
+}
