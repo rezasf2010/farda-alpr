@@ -4,6 +4,7 @@ import CameraPreview from '@/components/cameras/CameraPreview';
 import { cameraStatusStyles, type CameraStatus } from '@/components/cameras/status';
 import UserCard from '@/components/users/UserCard';
 import UserActions from '@/components/users/UserActions';
+import { Link } from '@/i18n/navigation';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import { getLocale, getTranslations } from 'next-intl/server';
@@ -173,6 +174,7 @@ export default async function UsersPage() {
   return (
     <div className="p-6">
       <div className="mx-auto flex w-full max-w-10xl flex-col gap-6 lg:flex-row lg:items-start">
+        {/* Users Management Section */}
         <section className="rounded-2xl border border-soft bg-surface p-6 shadow-app transition lg:flex-1">
           <header className="flex flex-col gap-4 border-b border-soft pb-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -194,13 +196,13 @@ export default async function UsersPage() {
                   {t('status.offline')}
                 </span>
               </div>
-              <button
-                type="button"
+              <Link
+                href="/users/create"
                 className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg btn-tonal-success px-4 py-2 text-xs font-semibold transition hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-emerald-400/60 focus:ring-offset-2 focus:ring-offset-app"
               >
                 <PersonAddAltOutlinedIcon sx={{ fontSize: { xs: 18, sm: 20 } }} />
                 {t('actions.create')}
-              </button>
+              </Link>
             </div>
           </header>
           <div className="mt-5 space-y-3">
@@ -227,6 +229,7 @@ export default async function UsersPage() {
         </section>
 
         <div className="flex flex-col gap-6 lg:flex-1">
+          {/* Cameras Management Section */}
           <section className="rounded-2xl border border-soft bg-surface p-6 shadow-app transition">
             <header className="flex flex-col gap-4 border-b border-soft pb-5 lg:flex-row lg:items-center lg:justify-between">
               <div>
@@ -296,6 +299,7 @@ export default async function UsersPage() {
             </div>
           </section>
 
+          {/* Cameras View Section */}
           <section className="rounded-2xl border border-soft bg-surface p-6 shadow-app transition">
             <header className="border-b border-soft pb-5">
               <h2 className="text-xl font-semibold text-primary">{t('cameraPreview.title')}</h2>
