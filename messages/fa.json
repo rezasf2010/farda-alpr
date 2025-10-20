@@ -83,26 +83,26 @@
     }
   },
   "UsersCreatePage": {
-    "breadcrumb": "کاربران · ایجاد",
+    "breadcrumb": "کاربران > ایجاد",
     "title": "ایجاد کاربر جدید",
     "subtitle": "پیش از اعطای دسترسی، اطلاعات کاربر را ثبت کنید.",
     "form": {
       "fields": {
         "firstName": {
           "label": "نام",
-          "placeholder": "مثال: فرزاد"
+          "placeholder": "نام کاربر (مثلاً علی)"
         },
         "lastName": {
           "label": "نام خانوادگی",
-          "placeholder": "مثال: گنجی‌زاده"
+          "placeholder": "نام خانوادگی کاربر (مثلاً احمدی)"
         },
         "username": {
           "label": "نام کاربری",
-          "placeholder": "مثال: admin"
+          "placeholder": "یک نام کاربری منحصر به فرد انتخاب کنید (مثلاً ali.ahmadi)"
         },
         "password": {
           "label": "گذرواژه",
-          "placeholder": "یک گذرواژه قوی وارد کنید"
+          "placeholder": "حداقل ۸ کاراکتر استفاده کنید"
         },
         "permissions": {
           "label": "مجوزها",
@@ -121,7 +121,7 @@
               "description": "تغییر تنظیمات و اتصال دوربین‌ها."
             },
             "4": {
-              "title": "گزارش‌گیری",
+              "title": "گزارش‌ گیری",
               "description": "تهیه گزارش‌ها و خروجی‌های تحلیلی."
             }
           }

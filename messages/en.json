@@ -83,26 +83,26 @@
     }
   },
   "UsersCreatePage": {
-    "breadcrumb": "Users · Create",
+    "breadcrumb": "Users > Create",
     "title": "Create new user",
     "subtitle": "Capture localized user details before granting system access.",
     "form": {
       "fields": {
         "firstName": {
           "label": "First name",
-          "placeholder": "e.g. Farzad"
+          "placeholder": "e.g. Ali"
         },
         "lastName": {
           "label": "Last name",
-          "placeholder": "e.g. Ganjizadeh"
+          "placeholder": "e.g. Ahmadi"
         },
         "username": {
           "label": "Username",
-          "placeholder": "e.g. admin"
+          "placeholder": "e.g. ali.ahmadi"
         },
         "password": {
           "label": "Password",
-          "placeholder": "Create a strong password"
+          "placeholder": "Use at least 8 characters"
         },
         "permissions": {
           "label": "Permissions",
