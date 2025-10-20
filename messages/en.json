@@ -81,5 +81,69 @@
       "title": "Live Tiles",
       "subtitle": "Quickly review each camera feed status."
     }
+  },
+  "UsersCreatePage": {
+    "breadcrumb": "Users > Create",
+    "title": "Create new user",
+    "subtitle": "Capture localized user details before granting system access.",
+    "form": {
+      "fields": {
+        "firstName": {
+          "label": "First name",
+          "placeholder": "e.g. Ali"
+        },
+        "lastName": {
+          "label": "Last name",
+          "placeholder": "e.g. Ahmadi"
+        },
+        "username": {
+          "label": "Username",
+          "placeholder": "e.g. ali.ahmadi"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Use at least 8 characters"
+        },
+        "permissions": {
+          "label": "Permissions",
+          "helper": "Select all capabilities this user should access.",
+          "options": {
+            "1": {
+              "title": "Dashboard access",
+              "description": "View high-level metrics and system status."
+            },
+            "2": {
+              "title": "User management",
+              "description": "Create and update operator accounts."
+            },
+            "3": {
+              "title": "Camera configuration",
+              "description": "Modify camera settings and connectivity."
+            },
+            "4": {
+              "title": "Reporting",
+              "description": "Generate exportable incident reports."
+            }
+          }
+        }
+      },
+      "helper": {
+        "apiUnavailable": "API integration pending: update the target endpoint when available."
+      },
+      "actions": {
+        "cancel": "Back to users",
+        "submit": "Create user",
+        "submitting": "Submitting..."
+      },
+      "feedback": {
+        "success": "User data submitted successfully. Awaiting API integration response.",
+        "error": "We could not reach the API. Please verify the endpoint and try again."
+      },
+      "validation": {
+        "required": "This field is required.",
+        "passwordLength": "Password should be at least 8 characters long.",
+        "permissionRequired": "Select at least one permission."
+      }
+    }
   }
 }
