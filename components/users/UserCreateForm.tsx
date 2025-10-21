@@ -4,18 +4,12 @@ import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import { userService } from '@/services/userService';
+import type { CreateUserFormValues, PermissionKey } from '@/services/userService';
 
-type PermissionKey = '1' | '2' | '3' | '4';
+type FormValues = CreateUserFormValues;
 
-type FormValues = {
-  firstName: string;
-  lastName: string;
-  username: string;
-  password: string;
-  permissions: PermissionKey[];
-};
-
-const API_ENDPOINT = '/api/users'; // TODO: replace with real endpoint when available.
+const permissionKeys: PermissionKey[] = ['1', '2', '3', '4'];
 
 export default function UserCreateForm() {
   const t = useTranslations('UsersCreatePage.form');
@@ -39,34 +33,12 @@ export default function UserCreateForm() {
     },
   });
 
-  const permissionKeys: PermissionKey[] = ['1', '2', '3', '4'];
-
   const onSubmit = async (values: FormValues) => {
     setServerError(null);
     setServerSuccess(null);
 
-    const payload = {
-      f_name: values.firstName.trim(),
-      l_name: values.lastName.trim(),
-      user_name: values.username.trim(),
-      password: values.password,
-      permission: permissionKeys.reduce<Record<PermissionKey, boolean>>(
-        (acc, key) => {
-          acc[key] = values.permissions.includes(key);
-          return acc;
-        },
-        { '1': false, '2': false, '3': false, '4': false },
-      ),
-    };
-
     try {
-      const response = await fetch(API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await userService.createUser(values);
 
       if (!response.ok) {
         throw new Error(`Request failed with status ${response.status}`);
